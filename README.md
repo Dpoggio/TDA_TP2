@@ -10,10 +10,10 @@ main.py --help
 
 Ejecucion:
 
-<pre><code>main.py [-m [M]] -c file -i file -o file 
+<pre><code>main.py [-d] -c file -i file -o file 
 </code></pre>
 
-  * -m , --mode : Modo de operacion. [0: Codificar, 1: Decodificar]. Default=0
+  * -d , --decode : Modo de Decodificacion
   * -c , --code : Archivo de Codificacion
   * -i , --input : Archivo de Entrada
   * -o , --output : Archivo de Salida
