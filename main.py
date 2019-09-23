@@ -1,5 +1,5 @@
 from Arguments import *
-import Huffman
+from Huffman import *
 import Constant as p
 
 modo, c_fp, in_fp, out_fp = Arguments().getArgs()
