@@ -1,4 +1,6 @@
 import heapq as he
+import csv
+from operator import itemgetter
 
 class Node:
 	def __init__(self, freq, char=None, left=None, right=None):
@@ -14,9 +16,7 @@ class Node:
 			else:
 				return False
 		else:
-			return self.freq < other.freq
-		
-
+			return self.freq < other.freq	
 	# def __cmp__(self, other):
 	#     # if other == None:
 	#     #     return -1
@@ -56,32 +56,20 @@ class Huffman:
 			# print("["+"]", root.freq, code)
 			self.dequeue(root.right, code + "1")
 
-	def generateCode(self):
+	def generateCode(self, lista):
 		# Generar un diccionario con el valor del ASCII como Clave
-		it = iter(self.c_fp.read().split(','))
+		it = lista.split(',')
 		# code = dict()
 		li = []
 		he.heapify(li)
 
-		while True:
-			try:
-				key = next(it)
-				value = next(it)
-				freq = int(value,10)
-				# hn = HeapNode(int(value,10), chr(int(key,10)))
-				# print(key, chr(int(key,10)))
-				n = Node(freq, chr(int(key,10)))
-				he.heappush(li, n)
-				# code[chr(int(key,10))] = value
-			except StopIteration:
-				break
-
-		# print(li)
+		for char, freq in lista:
+			n = Node(freq, char)
+			he.heappush(li, n)
+		
 		count = 0
-		# while len(li) > 1:
-		# 	print(he.heappop(li).freq)
-		# return 
-
+		
+		#LO DEJAMOS ACA
 		while len(li) > 1:
 			left = he.heappop(li)
 			# print("left: ",left.freq)
@@ -103,14 +91,30 @@ class Huffman:
 		print(self.decode_d)
 		return
 
-	def generateDecode(self):
-		# Generar un diccionario con el valor del binario como Clave
+	def crearListaHuffman(self):
+		#archivo = os.path.join("Archivos","test.txt")
+    	listaHuffman= []
+    	try:
+        	with open(c_fp) as inFile:
+            	lectura = inFile.read()
+            	#Creo una lista de frecuencias en chars
+            	l_frecuencias = lectura.split(",")
+            	#Creo lista de frecuencias en numeros
+            	frecuencias = list(map(int, l_frecuencias))
+            	for i in range (len(frecuencias)):
+                	caracter = chr(i)
+                	#Guardo el chr en ascii y la frecuencia en una lista
+                	listaHuffman.append((caracter, frecuencias[i]))
+    	except IOError:
+        	print("Error al leer el archivo")
+        
+        #Devuelvo una lista ordenada por el segundo item de la tupla
+    	return sorted(listaHuffman, key=operator.itemgetter(1))
+
+	def code(self):
+		# Codificar cada caracter al archivo de salida
 		return
 
 	def decode(self):
-		# Decodificar cada caracter al archivo de salida
-		return
-	
-	def code(self):
-		# Codificar cada caracter al archivo de salida
+		# Decodificar cada caracter al archivo de entrada
 		return

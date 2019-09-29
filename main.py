@@ -6,6 +6,8 @@ decode, c_fp, in_fp, out_fp = Arguments().getArgs()
 h = Huffman(c_fp, in_fp, out_fp)
 
 
+PARA MI ESTO NO VA, EL CODIGO DE HUFMMAN LO QUE HACE ES COMPRIME y DECODIFICA
+
 if not decode:
     print("Modo de Codificacion")
     # Genera el codigo para codificar
