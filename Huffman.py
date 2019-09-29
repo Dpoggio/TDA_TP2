@@ -1,13 +1,18 @@
-import heapq as he
+import heapq as heap
 import csv
 from operator import itemgetter
+import os
+
+CANT_ASCII=256
+
+
 
 class Node:
-	def __init__(self, freq, char=None, left=None, right=None):
+	def __init__(self, freq, char=None, izq=None, der=None):
 		self.freq = freq
 		self.char = char
-		self.left = left
-		self.right = right
+		self.izq = izq
+		self.der = der
 
 	def __lt__(self, other):
 		if self.freq == other.freq:
@@ -27,16 +32,15 @@ class Node:
 
 
 class Huffman:
-	def __init__(self, c_fp, in_fp, out_fp):
-		self.c_fp = c_fp
+	def __init__(self, in_fp, out_fp):
 		self.in_fp = in_fp
 		self.out_fp = out_fp
-		self.code_d = {}
-		self.decode_d = {}
+		self.code_dic = {}
+		self.decode_dic = {}
 
 
-	def dequeue(self, root, code):
-		if root:
+	def generarCodigo(self, raiz, codigo):
+		if raiz:
 			# if root.char:
 			# if root.left:
 			# 	if root.right:
@@ -49,67 +53,83 @@ class Huffman:
 			# 	else:
 			# 		print(" <- [", root.char, "]-> ", " |", code)
 
-			if root.char:
-				self.code_d[root.char] = code
-				self.decode_d[code] = root.char
-			self.dequeue(root.left, code + "0")
+			if raiz.char:
+				self.code_dic[raiz.char] = codigo
+				self.decode_dic[codigo] = raiz.char
+			self.generarCodigo(raiz.izq, codigo + "0")
 			# print("["+"]", root.freq, code)
-			self.dequeue(root.right, code + "1")
+			self.generarCodigo(raiz.der, codigo + "1")
+		#else: 
+			#print(codigo)
 
-	def generateCode(self, lista):
-		# Generar un diccionario con el valor del ASCII como Clave
-		it = lista.split(',')
-		# code = dict()
-		li = []
-		he.heapify(li)
+		
+	def procesarHuffman(self):
+		#Creo la lista de Hufmman previa a recorrer
+		try:
+			listaHuffman=self.crearListaHuffman()
+			
+		except IOError:
+			raise IOError
+		except ValueError:
+			raise ValueError
 
-		for char, freq in lista:
-			n = Node(freq, char)
-			he.heappush(li, n)
+		listaHeapify = []
+		heap.heapify(listaHeapify)
+
+		for char, freq in listaHuffman:
+			nodo = Node(freq, char)
+			heap.heappush(listaHeapify, nodo)
 		
-		count = 0
-		
-		#LO DEJAMOS ACA
-		while len(li) > 1:
-			left = he.heappop(li)
+		#count = 0
+		while len(listaHeapify) > 1:
+			izq = heap.heappop(listaHeapify)
 			# print("left: ",left.freq)
-			right = he.heappop(li)
+			der = heap.heappop(listaHeapify)
 			# print("right: ",right.freq)
 			# n =  Node(left.freq + right.freq, str(count), left, right)
-			n =  Node(left.freq + right.freq, None, left, right)
-			count = count + 1
-			he.heappush(li, n)
+			nodo =  Node(izq.freq + der.freq, None, izq, der)
+			#count = count + 1
+			heap.heappush(listaHeapify, nodo)
 
-		code = ""
-		root = he.heappop(li)
+		codigoHuffman = ""
+		raiz = heap.heappop(listaHeapify)
 
 		# print(li.left)
 		# print(root.char)
 		
-		self.dequeue(root, code)
-		print(self.code_d)
-		print(self.decode_d)
-		return
+		self.generarCodigo(raiz, codigoHuffman)
+		print(self.code_dic)
+		#print(self.decode_dic)
+		return raiz
 
 	def crearListaHuffman(self):
-		#archivo = os.path.join("Archivos","test.txt")
-    	listaHuffman= []
-    	try:
-        	with open(c_fp) as inFile:
-            	lectura = inFile.read()
-            	#Creo una lista de frecuencias en chars
-            	l_frecuencias = lectura.split(",")
-            	#Creo lista de frecuencias en numeros
-            	frecuencias = list(map(int, l_frecuencias))
-            	for i in range (len(frecuencias)):
-                	caracter = chr(i)
-                	#Guardo el chr en ascii y la frecuencia en una lista
-                	listaHuffman.append((caracter, frecuencias[i]))
-    	except IOError:
-        	print("Error al leer el archivo")
-        
-        #Devuelvo una lista ordenada por el segundo item de la tupla
-    	return sorted(listaHuffman, key=operator.itemgetter(1))
+		
+		listaHuffman= []
+		try:
+			with open(self.in_fp) as inFile:
+				lectura = inFile.read()
+				#Creo una lista de frecuencias en chars
+				l_frecuencias = lectura.split(",")
+				
+				if len(l_frecuencias) != CANT_ASCII:
+					raise ValueError
+					
+				#Creo lista de frecuencias en numeros
+				frecuencias = list(map(int, l_frecuencias))
+				for i in range (len(frecuencias)):
+					if frecuencias[i] != 0:
+						caracter = chr(i)
+						#Guardo el char en ascii y la frecuencia en una lista
+						listaHuffman.append((caracter, frecuencias[i]))
+			#Devuelvo una lista ordenada por el segundo item de la tupla
+			return sorted(listaHuffman, key=itemgetter(1))
+		
+		except IOError:
+			raise IOError
+		except ValueError:
+			raise ValueError
+		
+		
 
 	def code(self):
 		# Codificar cada caracter al archivo de salida
@@ -118,3 +138,17 @@ class Huffman:
 	def decode(self):
 		# Decodificar cada caracter al archivo de entrada
 		return
+		
+def main():
+	archivo = os.path.join("Archivos","PruebaHuffman.txt")
+	archivo2 = os.path.join("Archivos","PruebaHuffman.txt")
+
+	huffman = Huffman(archivo, archivo2)
+	try:
+		huffman.procesarHuffman()
+	except IOError:
+		print("\nError al leer el archivo")
+	except ValueError:
+		print("\nEl archivo no tiene formato esperado")
+	
+	return 0
