@@ -1,7 +1,3 @@
-from Arguments import *
-from Huffman import *
-import Constant as p
-
 def codificar(archivo_entrada,archivo_salida, dic_huff):
     try:
         with open(archivo_entrada) as inFile, open(archivo_salida) as outFile:
