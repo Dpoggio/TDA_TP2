@@ -5,13 +5,13 @@ import Constant as p
 
 decode, archivo_frecuencia, archivo_entrada, archivo_salida = Arguments().getArgs()
 
-huff=Huffman(archivo_frecuencia)
+huff=Huffman(archivo_frecuencia.name)
 huff.procesarHuffman()
 
 if not decode:
-    codificar(archivo_entrada,archivo_salida,huff.getDicCodificar())
+    codificar(archivo_entrada.name,archivo_salida.name,huff.getDicCodificar())
 else:
-    decodificar(archivo_entrada,archivo_salida,huff.getDicDecodificar())
+    decodificar(archivo_entrada.name,archivo_salida.name,huff.getDicDecodificar())
 
 """
 if not decode:
@@ -27,4 +27,3 @@ else:
     # Decodificar el archivo de entrada segun el codigo generado
     h.decode()
 """
-return 0

@@ -1,8 +1,6 @@
 import heapq as heap
 import csv
 from operator import itemgetter
-import os
-
 CANT_ASCII=256
 
 
@@ -37,10 +35,10 @@ class Huffman:
 		self.code_dic = {}
 		self.decode_dic = {}
 	
-	def getDicCodificar():
+	def getDicCodificar(self):
 		return self.code_dic
 		
-	def getDicDecodificar():
+	def getDicDecodificar(self):
 		return self.decode_dic
 
 	def generarCodigo(self, raiz, codigo):
@@ -134,25 +132,3 @@ class Huffman:
 			raise IOError
 		except ValueError:
 			raise ValueError
-"""	
-	def codificar(self):
-		# Codificar cada caracter al archivo de entrada
-		
-		return
-
-	def decodificar(self):
-		# Decodificar cada caracter al archivo de entrada
-		return
-"""		
-def main():
-	archivo = os.path.join("Archivos","PruebaHuffman.txt")
-	archivo2 = os.path.join("Archivos","PruebaHuffman.txt")
-
-	huffman = Huffman(archivo, archivo2)
-	try:
-		huffman.procesarHuffman()
-	except IOError:
-		print("\nError al leer el archivo")
-	except ValueError:
-		print("\nEl archivo no tiene formato esperado")
-	
