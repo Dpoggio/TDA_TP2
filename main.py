@@ -1,13 +1,19 @@
 from Arguments import *
 from Huffman import *
+from ComprimirYDescomprimir import *
 import Constant as p
 
-decode, c_fp, in_fp, out_fp = Arguments().getArgs()
-huffman = Huffman(in_fp, out_fp)
+decode, archivo_frecuencia, archivo_entrada, archivo_salida = Arguments().getArgs()
 
+huff=Huffman(archivo_frecuencia)
+huff.procesarHuffman()
+
+if not decode:
+    codificar(archivo_entrada,archivo_salida,huff.getDicCodificar())
+else:
+    decodificar(archivo_entrada,archivo_salida,huff.getDicDecodificar())
 
 """
-
 if not decode:
     print("Modo de Codificacion")
     # Genera el codigo para codificar

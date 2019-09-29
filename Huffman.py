@@ -32,12 +32,16 @@ class Node:
 
 
 class Huffman:
-	def __init__(self, in_fp, out_fp):
-		self.in_fp = in_fp
-		self.out_fp = out_fp
+	def __init__(self, archivo_frecuencia):
+		self.archivo_frecuencia = archivo_frecuencia
 		self.code_dic = {}
 		self.decode_dic = {}
-
+	
+	def getDicCodificar():
+		return self.code_dic
+		
+	def getDicDecodificar():
+		return self.decode_dic
 
 	def generarCodigo(self, raiz, codigo):
 		if raiz:
@@ -80,7 +84,6 @@ class Huffman:
 			nodo = Node(freq, char)
 			heap.heappush(listaHeapify, nodo)
 		
-		#count = 0
 		while len(listaHeapify) > 1:
 			izq = heap.heappop(listaHeapify)
 			# print("left: ",left.freq)
@@ -88,7 +91,6 @@ class Huffman:
 			# print("right: ",right.freq)
 			# n =  Node(left.freq + right.freq, str(count), left, right)
 			nodo =  Node(izq.freq + der.freq, None, izq, der)
-			#count = count + 1
 			heap.heappush(listaHeapify, nodo)
 
 		codigoHuffman = ""
@@ -98,15 +100,14 @@ class Huffman:
 		# print(root.char)
 		
 		self.generarCodigo(raiz, codigoHuffman)
-		print(self.code_dic)
+		#print(self.code_dic)
 		#print(self.decode_dic)
-		return raiz
 
 	def crearListaHuffman(self):
 		
 		listaHuffman= []
 		try:
-			with open(self.in_fp) as inFile:
+			with open(self.archivo_frecuencia) as inFile:
 				lectura = inFile.read()
 				#Creo una lista de frecuencias en chars
 				l_frecuencias = lectura.split(",")
@@ -117,28 +118,32 @@ class Huffman:
 				#Creo lista de frecuencias en numeros
 				frecuencias = list(map(int, l_frecuencias))
 				for i in range (len(frecuencias)):
+					"""
 					if frecuencias[i] != 0:
 						caracter = chr(i)
 						#Guardo el char en ascii y la frecuencia en una lista
 						listaHuffman.append((caracter, frecuencias[i]))
+					"""
+					caracter = chr(i)
+					#Guardo el char en ascii y la frecuencia en una lista
+					listaHuffman.append((caracter, frecuencias[i]))
 			#Devuelvo una lista ordenada por el segundo item de la tupla
-			return sorted(listaHuffman, key=itemgetter(1))
+			return listaHuffman
 		
 		except IOError:
 			raise IOError
 		except ValueError:
 			raise ValueError
+"""	
+	def codificar(self):
+		# Codificar cada caracter al archivo de entrada
 		
-		
-
-	def code(self):
-		# Codificar cada caracter al archivo de salida
 		return
 
-	def decode(self):
+	def decodificar(self):
 		# Decodificar cada caracter al archivo de entrada
 		return
-		
+"""		
 def main():
 	archivo = os.path.join("Archivos","PruebaHuffman.txt")
 	archivo2 = os.path.join("Archivos","PruebaHuffman.txt")
@@ -151,4 +156,3 @@ def main():
 	except ValueError:
 		print("\nEl archivo no tiene formato esperado")
 	
-	return 0
