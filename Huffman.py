@@ -1,9 +1,8 @@
 import heapq as heap
 import csv
 from operator import itemgetter
+import Exceptions as e
 CANT_ASCII=256
-
-
 
 class Node:
 	def __init__(self, freq, char=None, izq=None, der=None):
@@ -111,7 +110,7 @@ class Huffman:
 				l_frecuencias = lectura.split(",")
 				
 				if len(l_frecuencias) != CANT_ASCII:
-					raise ValueError
+					raise e.CustomException('Error: Archivo de frecuencias incorrecto!')
 					
 				#Creo lista de frecuencias en numeros
 				frecuencias = list(map(int, l_frecuencias))

@@ -20,6 +20,15 @@ Ejecucion:
 
 Ejemplos: 
 
-<pre><code>main.py -c code.txt -i text.txt -o coded_text.txt
-main.py -m 1 -c code.txt -i coded_text.txt -o decoded_text.txt
+<pre><code>python main.py -c code.txt -i text.txt -o coded_text.txt
+python main.py -d -c code.txt -i coded_text.txt -o decoded_text.txt
 </code></pre>
+
+
+## Codigo Auxiliar generateFreq.py
+
+Este archivo sirve para generar un archivo de codigos. El modo de ejecucion es:
+
+<pre><code>python generateFreq.py</code></pre>
+
+El programa buscara aquel archivo nombrado "text.txt" y generará un archivo de salida "code.txt"
