@@ -37,20 +37,20 @@ class Huffman:
 		""" Devuelve el hash para decodificar"""
 		return self.decode_dic
 
-	def generarCodigo(self, raiz, codigo):
+	def __generarCodigo(self, raiz, codigo):
 		""" Función encargada de crear los hash para codificar y decodificar a partir del arbol de Huffman """
 		if raiz:
 			if raiz.char:
 				self.code_dic[raiz.char] = codigo
 				self.decode_dic[codigo] = raiz.char
-			self.generarCodigo(raiz.izq, codigo + "0")
-			self.generarCodigo(raiz.der, codigo + "1")
+			self.__generarCodigo(raiz.izq, codigo + "0")
+			self.__generarCodigo(raiz.der, codigo + "1")
 				
 	def procesarHuffman(self):
 		"""Función principal de Huffman que llama a la función para crear la lista de tuplas (caracter,frecuencia),
 			arma el arbol de huffman, y finalmente llama a la función encargado de crear los hash para codificar y decodificar """
 		try:
-			listaHuffman=self.crearListaHuffman()
+			listaHuffman=self.__crearListaHuffman()
 			
 		except IOError:
 			raise IOError
@@ -73,10 +73,10 @@ class Huffman:
 
 		codigoHuffman = ""
 		raiz = heap.heappop(listaHeapify)		
-		self.generarCodigo(raiz, codigoHuffman)
+		self.__generarCodigo(raiz, codigoHuffman)
 	
 
-	def crearListaHuffman(self):
+	def __crearListaHuffman(self):
 		""" Función encargaga de crear la lista de tuplas (caracter, frecuencia) para procesar Huffman """
 		listaHuffman= []
 		try:
