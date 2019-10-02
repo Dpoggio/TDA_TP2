@@ -1,4 +1,7 @@
 def codificar(archivo_entrada,archivo_salida, dic_huff):
+    """ Funcion codificar que recibe un archivo de entrada, un hash de huffman y un archivo de salida.
+        Lee el archivo de entrada y por cada caracter lo codificamos con el hash de huffman, posteriormente
+        lo escribe en el archivo de salida. """
     try:
         with open(archivo_entrada) as inFile, open(archivo_salida,'w') as outFile:
             lectura = inFile.read()
@@ -9,6 +12,9 @@ def codificar(archivo_entrada,archivo_salida, dic_huff):
     
 
 def decodificar(archivo_entrada,archivo_salida, dic_huff):
+    """ Funcion decodificar que recibe un archivo de entrada, un hash de huffman y un archivo de salida.
+        Lee el archivo de entrada y por cada conjunto de bits que se encuentra en el hash de huffman lo decodifica, posteriormente
+        lo escribe en el archivo de salida. """
     codigo=""
     try:
         with open(archivo_entrada) as inFile, open(archivo_salida,'w') as outFile:
